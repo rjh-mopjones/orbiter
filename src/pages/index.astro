@@ -1,11 +1,132 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { buildUrl } from '../utils/url-builder';
+import {
+    BoltIcon,
+    ChatBubbleLeftIcon,
+    QueueListIcon,
+    RectangleGroupIcon,
+    ServerIcon,
+    MagnifyingGlassIcon,
+    ChevronDoubleDownIcon,
+    ChevronDoubleUpIcon,
+    ArrowPathIcon,
+    DocumentDuplicateIcon,
+    RocketLaunchIcon,
+    ArrowUpRightIcon,
+    ChatBubbleLeftRightIcon
+
+} from '@heroicons/react/24/outline';
+import VerticalSideBarLayout from '../layouts/VerticalSideBarLayout.astro';
+import { BookOpen, BookOpenText, TableProperties, Workflow } from 'lucide-react';
+import DiscoverInsight from '../components/DiscoverInsight.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const { commands = [], events = [], queries = [] } = { commands: [1, 2, 3, 4, 5], events: [1, 2, 3, 4, 5], queries: [1, 2, 3, 4, 5] };
+const domains = [1, 2, 3, 5];
+const services = [1,2,3,4,5, 6];
+const flows = [1,2,3,4,5];
+
+const getDefaultUrl = (route: string, defaultValue: string) => {
+    if (domains.length > 0) return buildUrl(`/${route}/domains/`);
+    if (services.length > 0) return buildUrl(`/${route}/services/`);
+    if (flows.length > 0) return buildUrl(`/${route}/flows/`);
+    return buildUrl(defaultValue);
+};
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<VerticalSideBarLayout title="Satellite">
+    <body class="min-h-screen">
+    <main class="">
+        <div class="container mx-auto px-4 py-5 max-w-[90em]">
+            <section class="text-center mb-8">
+                <h1 class="text-5xl font-bold mb-6 text-gray-800"><span class="text-primary">Welcome to Satellite</span></h1>
+                <p class="text-xl mb-8 text-gray-700 max-w-2xl mx-auto font-light">
+                    Heavily Based off Event Catalog, Satellite is a tool for cataloging the entities and communication within an event-driven architecture.
+                </p>
+            </section>
+            <div class="flex flex-col items-center">
+                <section class="mb-7 bg-white rounded-xl shadow-2xl p-2 w-full md:w-3/4 lg:w-1/2 text-center">
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 text-center">
+                        <DiscoverInsight color="text-red-600" dataTarget={services.length} icon={ChevronDoubleDownIcon} label="inbound gateways" />
+                        <DiscoverInsight color="text-black" dataTarget={services.length} icon={RocketLaunchIcon} label="services" />
+                        <DiscoverInsight color="text-green-400" dataTarget={services.length} icon={ChevronDoubleUpIcon} label="outbound gateways" />
+                    </div>
+                </section>
+            </div>
+            <div class="flex justify-center gap-x-10">
+                    <section class="mb-16 bg-white rounded-xl shadow-2xl p-2 w-full md:w-3/4 lg:w-1/2 text-center">
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-2">
+                            <DiscoverInsight color="text-blue-500" dataTarget={commands.length} icon={ChatBubbleLeftIcon} label="commands" />
+                            <DiscoverInsight color="text-green-500" dataTarget={queries.length} icon={MagnifyingGlassIcon} label="projections" />
+                            <DiscoverInsight color="text-orange-400" dataTarget={events.length} icon={BoltIcon} label="events" />
+                            <DiscoverInsight color="text-pink-400" dataTarget={events.length} icon={QueueListIcon} label="aggregates" />
+                        </div>
+                    </section>
+                    <section class="mb-16 bg-white rounded-xl shadow-2xl p-2 w-full md:w-3/4 lg:w-1/2 text-center">
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-2">
+                            <DiscoverInsight color="text-purple-500" dataTarget={commands.length} icon={ArrowUpRightIcon} label="subscriptions" />
+                            <DiscoverInsight color="text-red-500" dataTarget={queries.length} icon={DocumentDuplicateIcon} label="remote store lookups" />
+                            <DiscoverInsight color="text-zinc-500" dataTarget={events.length} icon={ChatBubbleLeftRightIcon} label="External Commands" />
+                            <DiscoverInsight color="text-cyan-500" dataTarget={events.length} icon={ArrowPathIcon} label="client requests" />
+                        </div>
+                    </section>
+            </div>
+                <section class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                    <div
+                            class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-1"
+                    >
+                        <div class="h-2 bg-blue-400"></div>
+                        <div class="p-6">
+                            <h2 class="text-2xl font-semibold mb-4 text-blue-700 flex items-center">
+                                <BookOpenText size={24} className="inline-block mr-2" />
+                                <span class="block">Documentation</span>
+                            </h2>
+                            <p class="text-gray-600 mb-4">
+                                Create and maintain comprehensive documentation for your events, including schemas, examples, and versioning.
+                            </p>
+                            <a href={getDefaultUrl('docs', '/docs')} class="text-blue-600 hover:text-blue-800 font-semibold">Explore docs →</a
+                            >
+                        </div>
+                    </div>
+                    <div
+                            class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-1"
+                    >
+                        <div class="h-2 bg-teal-400"></div>
+                        <div class="p-6">
+                            <h2 class="text-2xl font-semibold mb-4 text-teal-700 flex items-center">
+                                <Workflow size={24} className="inline-block mr-2" />
+                                <span class="block">Visualiser</span>
+                            </h2>
+                            <p class="text-gray-600 mb-4">
+                                Transform complex event flows into clear, interactive diagrams. Gain insights at a glance and communicate
+                                effectively across teams.
+                            </p>
+                            <a href={getDefaultUrl('visualiser', '/visualiser')} class="text-teal-600 hover:text-teal-800 font-semibold"
+                            >Explore visualiser →</a
+                            >
+                        </div>
+                    </div>
+
+                    <div
+                            class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-1"
+                    >
+                        <div class="h-2 bg-red-700"></div>
+                        <div class="p-6">
+                            <h2 class="text-2xl font-semibold mb-4 text-red-700 flex items-center">
+                                <TableProperties size={24} className="inline-block mr-2" />
+                                <span class="block">Discover</span>
+                            </h2>
+                            <p class="text-gray-600 mb-4">
+                                Dive deep into your event catalog. Search, filter, and analyze your events to gain insights and improve your
+                                architecture.
+                            </p>
+                            <a href={buildUrl('/discover/events')} class="text-red-600 hover:text-red-800 font-semibold">Start exploring →</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- <Footer className="px-10" /> -->
+    </main>
+    </body>
+</VerticalSideBarLayout>
